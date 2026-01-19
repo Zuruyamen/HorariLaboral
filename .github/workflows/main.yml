@@ -5,7 +5,7 @@ on:
     # CRON Format: (Minute Hour Day Month Day_of_Week)
     # GitHub Actions uses UTC time. Spain (Winter) is UTC+1.
 
-# TUESDAYS: 10:00 and 13:00 (Spain Time -> 09:00 and 12:00 UTC)
+    # TUESDAYS: 10:00 and 13:00 (Spain Time -> 09:00 and 12:00 UTC)
     - cron: '0 9 * * 2'
     - cron: '0 12 * * 2'
 
