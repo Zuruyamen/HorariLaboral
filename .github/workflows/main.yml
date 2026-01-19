@@ -1,0 +1,43 @@
+name: PVCat Automation Bot
+
+on:
+  schedule:
+    # CRON Format: (Minute Hour Day Month Day_of_Week)
+    # GitHub Actions uses UTC time. Spain (Winter) is UTC+1.
+
+    # FRIDAYS: 16:00 and 18:00 (Spain Time -> 15:00 and 17:00 UTC)
+    - cron: '0 15 * * 5'
+    - cron: '0 17 * * 5'
+
+    # SATURDAYS: 10:30 and 19:30 (Spain Time -> 09:30 and 18:30 UTC)
+    - cron: '30 9 * * 6'
+    - cron: '30 18 * * 6'
+
+    # SUNDAYS: 10:30 and 19:30 (Spain Time -> 09:30 and 18:30 UTC)
+    - cron: '30 9 * * 0'
+    - cron: '30 18 * * 0'
+
+  workflow_dispatch: # Allows manual trigger from the GitHub Actions tab
+
+jobs:
+  punch-clock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install selenium webdriver-manager
+
+      - name: Execute punch-clock script
+        env:
+          # Make sure to set these in Settings > Secrets and variables > Actions
+          USER_PVCAT: ${{ secrets.USER_PVCAT }}
+          PASS_PVCAT: ${{ secrets.PASS_PVCAT }}
+        run: python fichar.py
